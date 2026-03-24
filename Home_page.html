@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Изображения */
+  .foto {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Контейнер под изображениями */
+  #buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* по горизонтали центр */
+    margin: 20px 0; /* немного отступа сверху */
+  }
+
+  #smileBlock {
+    display: none;
+    margin-top: 15px;
+    padding: 15px 25px;
+    background-color: #d4f0ff;
+    border: 2px solid #00aaff;
+    border-radius: 10px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background-color: #00aaff;
+    color: white;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #0088cc;
+  }
+</style>
+</head>
+
+<body>
+
+<img src="Photo_One.png" class="foto">
+<img src="Photo_two.png" class="foto">
+<img src="Photo_three.png" class="foto">
+<img src="Photo_four.png" class="foto">
+
+<!-- Контейнер с кнопкой и блоком ":))" -->
+<div id="buttonContainer">
+  <button id="showSmileBtn">Нажми меня</button>
+  <div id="smileBlock">:))</div>
+</div>
+
+<script>
+  const button = document.getElementById('showSmileBtn');
+  const block = document.getElementById('smileBlock');
+
+  button.addEventListener('click', () => {
+    block.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
