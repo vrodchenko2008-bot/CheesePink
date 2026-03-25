@@ -86,12 +86,12 @@
 </head>
 <body>
 
-  <button class="btn" onclick="openPopup()">Нажми меня</button>
+  <button class="btn" onclick="openPopup()">Нажмите, чтоб узнать кто самый красивый в мире</button>
 
   <div class="overlay" id="overlay" onclick="closePopup()"></div>
 
   <div class="popup" id="popup">
-    <p>Это маленькое окошко 👋</p>
+    <p>Ты :)</p>
     <br>
     <button class="btn" onclick="closePopup()">Закрыть</button>
   </div>
@@ -110,4 +110,3 @@
 
 </body>
 </html>
->
