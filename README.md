@@ -1,79 +1,113 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кнопка с попапом</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-  /* Изображения */
-  .foto {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    display: block;
-  }
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f2f2f2;
+    }
 
-  /* Контейнер под изображениями */
-  #buttonContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* по горизонтали центр */
-    margin: 20px 0; /* немного отступа сверху */
-  }
+    .btn {
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-  #smileBlock {
-    display: none;
-    margin-top: 15px;
-    padding: 15px 25px;
-    background-color: #d4f0ff;
-    border: 2px solid #00aaff;
-    border-radius: 10px;
-    font-size: 36px;
-    font-weight: bold;
-  }
+    .btn:active {
+      transform: scale(0.95);
+    }
 
-  button {
-    padding: 15px 30px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 8px;
-    border: none;
-    background-color: #00aaff;
-    color: white;
-    transition: background-color 0.3s;
-  }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 80%;
+      max-width: 300px;
+      transition: 0.3s;
+    }
 
-  button:hover {
-    background-color: #0088cc;
-  }
-</style>
+    .popup.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @media (max-width: 480px) {
+      .btn {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+
+      .popup {
+        width: 90%;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<img src="Photo_One.png" class="foto">
-<img src="Photo_two.png" class="foto">
-<img src="Photo_three.png" class="foto">
-<img src="Photo_four.png" class="foto">
+  <button class="btn" onclick="openPopup()">Нажми меня</button>
 
-<!-- Контейнер с кнопкой и блоком ":))" -->
-<div id="buttonContainer">
-  <button id="showSmileBtn">Нажми меня</button>
-  <div id="smileBlock">:))</div>
-</div>
+  <div class="overlay" id="overlay" onclick="closePopup()"></div>
 
-<script>
-  const button = document.getElementById('showSmileBtn');
-  const block = document.getElementById('smileBlock');
+  <div class="popup" id="popup">
+    <p>Это маленькое окошко 👋</p>
+    <br>
+    <button class="btn" onclick="closePopup()">Закрыть</button>
+  </div>
 
-  button.addEventListener('click', () => {
-    block.style.display = 'block';
-  });
-</script>
+  <script>
+    function openPopup() {
+      document.getElementById('popup').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    }
+
+    function closePopup() {
+      document.getElementById('popup').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    }
+  </script>
 
 </body>
 </html>
+>
