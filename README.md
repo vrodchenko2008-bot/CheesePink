@@ -1,112 +1,143 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кнопка с попапом</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сердечко</title>
+<style>
     body {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #f2f2f2;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        font-family: Arial, sans-serif;
     }
 
-    .btn {
-      padding: 15px 25px;
-      font-size: 18px;
-      border: none;
-      border-radius: 12px;
-      background: #4CAF50;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
+    .heart-btn {
+        width: 80px;
+        height: 80px;
+        background: red;
+        position: relative;
+        transform: rotate(-45deg);
+        cursor: pointer;
+        transition: transform 0.2s;
     }
 
-    .btn:active {
-      transform: scale(0.95);
+    .heart-btn:before,
+    .heart-btn:after {
+        content: "";
+        width: 80px;
+        height: 80px;
+        background: red;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    .heart-btn:before {
+        top: -40px;
+        left: 0;
+    }
+
+    .heart-btn:after {
+        left: 40px;
+        top: 0;
+    }
+
+    .heart-btn:active {
+        transform: scale(1.2) rotate(-45deg);
     }
 
     .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-      text-align: center;
-      width: 80%;
-      max-width: 300px;
-      transition: 0.3s;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: white;
+        padding: 20px;
+        border-radius: 20px;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        width: 80%;
+        max-width: 300px;
     }
 
-    .popup.active {
-      transform: translate(-50%, -50%) scale(1);
+    .popup.show {
+        transform: translate(-50%, -50%) scale(1);
     }
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.3s;
+    .popup .heart {
+        font-size: 40px;
+        color: red;
+        margin-bottom: 10px;
+        animation: pulse 1s infinite;
     }
 
-    .overlay.active {
-      opacity: 1;
-      pointer-events: all;
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .message {
+        font-size: 16px;
+        color: #333;
+    }
+
+    .close {
+        margin-top: 10px;
+        padding: 8px 15px;
+        border: none;
+        background: #ff6b6b;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
     }
 
     @media (max-width: 480px) {
-      .btn {
-        font-size: 16px;
-        padding: 12px 20px;
-      }
-
-      .popup {
-        width: 90%;
-        font-size: 14px;
-      }
+        .heart-btn {
+            width: 60px;
+            height: 60px;
+        }
+        .heart-btn:before,
+        .heart-btn:after {
+            width: 60px;
+            height: 60px;
+        }
+        .heart-btn:before {
+            top: -30px;
+        }
+        .heart-btn:after {
+            left: 30px;
+        }
     }
-  </style>
+</style>
 </head>
 <body>
 
-  <button class="btn" onclick="openPopup()">Нажмите, чтоб узнать кто самый красивый в мире</button>
+<div class="heart-btn" onclick="showPopup()"></div>
 
-  <div class="overlay" id="overlay" onclick="closePopup()"></div>
+<div class="popup" id="popup">
+    <div class="heart">❤️</div>
+    <div class="message">
+        Я тебе кохаю 💖<br>
+        Нехай сьогодні у тебе буде гарний день 🌸<br><br>
+        Усміхнись, ти прекрасна! 😊
+    </div>
+    <button class="close" onclick="hidePopup()">Закрыть</button>
+</div>
 
-  <div class="popup" id="popup">
-    <p>Ты :)</p>
-    <br>
-    <button class="btn" onclick="closePopup()">Закрыть</button>
-  </div>
+<script>
+function showPopup() {
+    document.getElementById('popup').classList.add('show');
+}
 
-  <script>
-    function openPopup() {
-      document.getElementById('popup').classList.add('active');
-      document.getElementById('overlay').classList.add('active');
-    }
-
-    function closePopup() {
-      document.getElementById('popup').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    }
-  </script>
+function hidePopup() {
+    document.getElementById('popup').classList.remove('show');
+}
+</script>
 
 </body>
 </html>
