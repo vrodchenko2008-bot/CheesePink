@@ -3,142 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Сердечко</title>
+<title>💖 Милое Колесо Фортуны 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        font-family: Arial, sans-serif;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    .heart-btn {
-        width: 80px;
-        height: 80px;
-        background: red;
-        position: relative;
-        transform: rotate(-45deg);
-        cursor: pointer;
-        transition: transform 0.2s;
-    }
+body{
+    min-height:100vh;
+    font-family:'Comfortaa',cursive;
+    overflow:hidden;
+    background: radial-gradient(circle at top,#ffe8f3,#e8f3ff,#f6e8ff);
+}
 
-    .heart-btn:before,
-    .heart-btn:after {
-        content: "";
-        width: 80px;
-        height: 80px;
-        background: red;
-        border-radius: 50%;
-        position: absolute;
-    }
+/* фон */
+.stars{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
 
-    .heart-btn:before {
-        top: -40px;
-        left: 0;
-    }
+.star{
+    position:absolute;
+    font-size:20px;
+    animation:float 4s ease-in-out infinite;
+}
 
-    .heart-btn:after {
-        left: 40px;
-        top: 0;
-    }
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+}
 
-    .heart-btn:active {
-        transform: scale(1.2) rotate(-45deg);
-    }
+.container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+}
 
-    .popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        background: white;
-        padding: 20px;
-        border-radius: 20px;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        width: 80%;
-        max-width: 300px;
-    }
+h1{
+    margin-bottom:15px;
+    color:#ff5ea8;
+    text-shadow:0 0 15px white;
+    font-size:48px;
+}
 
-    .popup.show {
-        transform: translate(-50%, -50%) scale(1);
-    }
+/* кнопка */
+.center-btn{
+    background:linear-gradient(135deg,#ff8ec9,#ff5ea8);
+    border:none;
+    color:white;
+    font-weight:700;
+    border-radius:999px;
+    padding:18px 42px;
+    box-shadow:0 10px 30px rgba(255,94,168,.35);
+    transition:.3s;
+    font-size:24px;
+    cursor:pointer;
+}
 
-    .popup .heart {
-        font-size: 40px;
-        color: red;
-        margin-bottom: 10px;
-        animation: pulse 1s infinite;
-    }
+.center-btn:hover{
+    transform:translateY(-3px) scale(1.05);
+}
 
-    @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-    }
+/* колесо */
+.wheel-wrapper{position:relative;}
 
-    .message {
-        font-size: 16px;
-        color: #333;
-    }
+.pointer{
+    position:absolute;
+    right:-20px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:60px;
+}
 
-    .close {
-        margin-top: 10px;
-        padding: 8px 15px;
-        border: none;
-        background: #ff6b6b;
-        color: white;
-        border-radius: 10px;
-        cursor: pointer;
-    }
+#wheel{
+    border-radius:50%;
+    border:12px solid white;
+    box-shadow:0 0 40px rgba(255,182,220,.8);
+}
 
-    @media (max-width: 480px) {
-        .heart-btn {
-            width: 60px;
-            height: 60px;
-        }
-        .heart-btn:before,
-        .heart-btn:after {
-            width: 60px;
-            height: 60px;
-        }
-        .heart-btn:before {
-            top: -30px;
-        }
-        .heart-btn:after {
-            left: 30px;
-        }
-    }
+/* modal */
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(15px);
+    z-index:9999;
+}
+
+.modal.show{display:flex;}
+
+.modal-card{
+    background:white;
+    border-radius:40px;
+    padding:40px;
+    text-align:center;
+}
+
+.big-number{
+    font-size:280px;
+    color:#ff5ea8;
+    text-shadow:0 0 15px white,0 0 30px #ffd4ea,0 0 60px #ffd4ea;
+}
+
+.close-btn{
+    margin-top:20px;
+    padding:16px 40px;
+    border:none;
+    border-radius:999px;
+    background:#ff85bf;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+}
 </style>
 </head>
+
 <body>
 
-<div class="heart-btn" onclick="showPopup()"></div>
+<div class="stars" id="stars"></div>
 
-<div class="popup" id="popup">
-    <div class="heart">❤️</div>
-    <div class="message">
-        Я тебе кохаю 💖<br>
-        Нехай сьогодні у тебе буде гарний день 🌸<br><br>
-        Усміхнись, ти прекрасна! 😊
+<div class="container">
+    <h1>💖 Колесо Фортуны 💖</h1>
+
+    <div class="wheel-wrapper">
+        <canvas id="wheel" width="700" height="700"></canvas>
+        <div class="pointer">💖</div>
     </div>
-    <button class="close" onclick="hidePopup()">Закрити</button>
+
+    <button class="center-btn" id="spinBtn">✨ КРУТИТЬ ✨</button>
+    <button class="center-btn" id="restartBtn" style="display:none;">🔄 НАЧАТЬ ЗАНОВО</button>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-card">
+        <h2>🎉 Выпало число 🎉</h2>
+        <div class="big-number" id="winnerNumber"></div>
+        <button class="close-btn" id="closeBtn">💖 Закрыть</button>
+    </div>
 </div>
 
 <script>
-function showPopup() {
-    document.getElementById('popup').classList.add('show');
+document.addEventListener("DOMContentLoaded", () => {
+
+const canvas = document.getElementById("wheel");
+const ctx = canvas.getContext("2d");
+
+const spinBtn = document.getElementById("spinBtn");
+const restartBtn = document.getElementById("restartBtn");
+const modal = document.getElementById("modal");
+const winnerNumber = document.getElementById("winnerNumber");
+const closeBtn = document.getElementById("closeBtn");
+
+const TOTAL_NUMBERS = 33;
+
+let availableNumbers = [];
+let usedNumbers = [];
+let rotation = 0;
+let spinning = false;
+
+const colors = ['#ffd6e7','#d6f0ff','#e8d6ff','#d8ffd8','#fff0c9'];
+
+/* ---------- INIT ---------- */
+function initNumbers(){
+    const saved = JSON.parse(localStorage.getItem("usedNumbers") || "[]");
+
+    usedNumbers = saved.filter(n => n >= 1 && n <= TOTAL_NUMBERS);
+
+    availableNumbers = [];
+
+    for(let i=1;i<=TOTAL_NUMBERS;i++){
+        if(!usedNumbers.includes(i)){
+            availableNumbers.push(i);
+        }
+    }
+
+    if(availableNumbers.length === 0 && usedNumbers.length > 0){
+        spinBtn.style.display = "none";
+        restartBtn.style.display = "inline-block";
+    }
 }
 
-function hidePopup() {
-    document.getElementById('popup').classList.remove('show');
+/* ---------- RESET ---------- */
+function resetGame(){
+    usedNumbers = [];
+    availableNumbers = [];
+
+    for(let i=1;i<=TOTAL_NUMBERS;i++){
+        availableNumbers.push(i);
+    }
+
+    localStorage.removeItem("usedNumbers");
+
+    spinBtn.style.display = "inline-block";
+    restartBtn.style.display = "none";
+
+    drawWheel();
 }
+
+/* ---------- SAVE ---------- */
+function saveGame(){
+    localStorage.setItem("usedNumbers", JSON.stringify(usedNumbers));
+}
+
+/* ---------- DRAW ---------- */
+function drawWheel(){
+
+    ctx.clearRect(0,0,700,700);
+
+    const center = 350;
+    const radius = 320;
+    const slice = (Math.PI*2)/TOTAL_NUMBERS;
+
+    for(let i=1;i<=TOTAL_NUMBERS;i++){
+
+        const start = (i-1)*slice + rotation;
+
+        ctx.beginPath();
+        ctx.moveTo(center,center);
+        ctx.arc(center,center,radius,start,start+slice);
+        ctx.closePath();
+
+        ctx.globalAlpha = usedNumbers.includes(i) ? 0.25 : 1;
+        ctx.fillStyle = colors[(i-1)%colors.length];
+        ctx.fill();
+
+        ctx.save();
+        ctx.translate(center,center);
+        ctx.rotate(start + slice/2);
+
+        ctx.fillStyle = "#444";
+        ctx.font = "bold 24px Arial";
+        ctx.textAlign = "right";
+        ctx.fillText(i, radius-20, 10);
+
+        if(usedNumbers.includes(i)){
+            ctx.font = "20px Arial";
+            ctx.fillText("✔", radius-60, 10);
+        }
+
+        ctx.restore();
+    }
+
+    ctx.globalAlpha = 1;
+
+    ctx.beginPath();
+    ctx.arc(center,center,60,0,Math.PI*2);
+    ctx.fillStyle = "#fff";
+    ctx.fill();
+
+    ctx.font = "40px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("💖",center,370);
+}
+
+/* ---------- SPIN ---------- */
+function spinWheel(){
+
+    if(spinning) return;
+    if(availableNumbers.length === 0) return;
+
+    spinning = true;
+
+    const winner =
+        availableNumbers[Math.floor(Math.random()*availableNumbers.length)];
+
+    const index = winner - 1;
+    const slice = (Math.PI*2)/TOTAL_NUMBERS;
+
+    const target =
+        rotation +
+        Math.PI*2*6 -
+        index*slice -
+        slice/2;
+
+    const start = rotation;
+    const duration = 4500;
+    const t0 = performance.now();
+
+    function animate(t){
+
+        let p = (t - t0)/duration;
+        if(p > 1) p = 1;
+
+        const ease = 1 - Math.pow(1-p,3);
+
+        rotation = start + (target - start)*ease;
+
+        drawWheel();
+
+        if(p < 1){
+            requestAnimationFrame(animate);
+        } else {
+
+            usedNumbers.push(winner);
+            availableNumbers = availableNumbers.filter(n => n !== winner);
+
+            saveGame();
+
+            winnerNumber.textContent = winner;
+            modal.classList.add("show");
+
+            spinning = false;
+
+            if(availableNumbers.length === 0){
+                spinBtn.style.display = "none";
+                restartBtn.style.display = "inline-block";
+            }
+
+            drawWheel();
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+/* ---------- EVENTS ---------- */
+spinBtn.addEventListener("click", spinWheel);
+
+closeBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+});
+
+restartBtn.addEventListener("click", () => {
+    rotation = 0;
+    resetGame();
+});
+
+/* ---------- START ---------- */
+initNumbers();
+
+if(usedNumbers.length === 0 && availableNumbers.length === 0){
+    resetGame();
+}
+
+drawWheel();
+
+});
 </script>
 
 </body>
 </html>
-
